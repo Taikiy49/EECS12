@@ -1,36 +1,67 @@
-Python 3.10.7 (v3.10.7:6cc6b13308, Sep  5 2022, 14:02:52) [Clang 13.0.0 (clang-1300.0.29.30)] on darwin
-Type "help", "copyright", "credits" or "license()" for more information.
->>> 
-===== RESTART: /Users/taikiyamashita/Desktop/EECS 12 HW Assignments/hw2.py =====
-Welcome to the EECS 12 Lucas and Fibonacci convergence experiment!
-Please enter N (>2): 3
-Please enter even K (2<=K<N): 2
-Lucas terms:
-     2
-     1
-     3
-     4
-The Nth term of Lucas is: 4
+import math
+#user inputs n and k values which will be used in the calculations later.
+def main():
+    print ("Welcome to the EECS 12 Lucas and Fibonacci convergence experiment!")
+    n = eval(input("Please enter N (>2): "))
+    k = eval(input("Please enter even K (2<=K<N): "))
+    if n < 2:
+        return print ("Invalid input: N value must be greater than 2.") 
+    if k > n:
+        return print ("Invalid input: K value must be less than N.")
+    if k < 2:
+        return print ("Invalid input: K value must be greater than or equal to 2.")
 
+#defining lucas numbers and using the inputted n value to find lucas terms.
+    print ("Lucas terms:")
+    def lucas(n):
+        if n == 0:
+            return 2;
+        if n == 1:
+            return 1;
+        else:
+            return lucas(n-1) + lucas(n-2);
 
-Fibonacci terms:
-     0
-     1
-     1
-     2
-The Nth term of Fibonacci is: 2
+    for l in range (n+1):
+        
+        print ("    ",lucas(l))
+    print ("The Nth term of Lucas is:",lucas(n))
+    print ("\n")
+    
+#defining fibonacci numbers and using the inputted n value to find fibonacci terms.
+    print ("Fibonacci terms:")
+    def fibonacci(n):
+        if n == 0:
+            return 0;
+        if n == 1:
+            return 1;
+        if n == 2:
+            return 1;
+        else:
+            return fibonacci(n-1) + fibonacci(n-2);
+    
+    for f in range (n+1):
+        
+        print ("    ",fibonacci(f))
+    print ("The Nth term of Fibonacci is:",fibonacci(n))
+    print ("\n")
 
+#golden ratio value.
+    golden_ratio = (1+math.sqrt(5)) / 2
+    print ("Golden Ratio:",golden_ratio)
 
-Golden Ratio: 1.618033988749895
-Fn-k: 1
-Fn+k: 5
-    Left hand side: 6
-Lk: 3
-Fn: 2
-    Right hand side: 6
-F_err: 0.38
->>> main ()
-Welcome to the EECS 12 Lucas and Fibonacci convergence experiment!
-Please enter N (>2): 2
-Please enter even K (2<=K<N): 1
-Invalid input: K value must be greater than or equal to 2.
+#finding Fn-k and Fn+k to solve for the left hand side and Lk and Fn to solve for the right hand side. 
+    lefthandside = fibonacci(n-k) + fibonacci(n+k) 
+    righthandside = fibonacci(n) * lucas(k)
+
+    print ("Fn-k:", fibonacci(n-k))
+    print ("Fn+k:", fibonacci(n+k))
+    print ("    Left hand side:", lefthandside)
+    print ("Lk:", lucas(k))
+    print ("Fn:", fibonacci(n))
+    print ("    Right hand side:", righthandside)
+    
+#finding the error of two consecutive fibonacci terms by using the n value and golden ratio. 
+    fibonacci_error = abs((fibonacci(n))/(fibonacci(n-1)) - golden_ratio)
+    print ("F_err:",round(fibonacci_error,2))
+    
+main ()
